@@ -1,16 +1,3 @@
-<!--
-Select and set the hotel
-Select and add a restaurant
-Select and add an activity
-Remove the hotel
-Remove a restaurant
-Remove an activity
-Add a day
-Remove a day
-Switch days
--->
-
-
 {% extends 'layout.html' %}
 
 {% block title %}Your Trip{% endblock %}
@@ -29,14 +16,6 @@ Switch days
           <div>
             <h4>Hotels</h4>
             <select data-type="hotel" id="hotel-choices">
-
-              <!--<script>
-                $('#hotels-choices').on('click', function() {
-                  hotels.forEach(function(hotel){
-                    $('#hotels-choices').append('<option>' + hotel.name + '</option>');
-                  })
-                })
-              </script>-->
 
             </select>
             <button data-action="add" class="btn btn-primary btn-circle pull-right">+</button>
@@ -58,7 +37,7 @@ Switch days
         </div>
       </div>
     </div>
-    <!--<div class="col-xs-6 col-sm-12">
+    <div class="col-xs-6 col-sm-12">
       <h3>
         <span id="day-title">
           <span>Day 2</span>
@@ -68,18 +47,19 @@ Switch days
       <div class="panel panel-default">
         <div class="panel-heading">
           <div class="day-buttons">
-            <button class="btn btn-circle day-btn">1</button>
-            <button class="btn btn-circle day-btn current-day">2</button>
-            <button class="btn btn-circle day-btn">3</button>
+            <button class="btn btn-circle day-btn day-num">1</button>
             <button class="btn btn-circle day-btn" id="day-add">+</button>
+ <!--            <button class="btn btn-circle day-btn current-day">2</button>
+            <button class="btn btn-circle day-btn">3</button> -->
+
           </div>
         </div>
         <div class="panel-body" id="itinerary">
           <div>
             <h4>My Hotel</h4>
-            <ul class="list-group">
+            <ul class="list-group" id="hotel-choices-itinerary">
               <div class="itinerary-item">
-                <span class="title">Andaz Wall Street</span>
+                <span class="title">   </span>
                 <button class="btn btn-xs btn-danger remove btn-circle">x</button>
               </div>
             </ul>
@@ -87,8 +67,8 @@ Switch days
           <div>
             <h4>My Restaurants</h4>
             <ul class="list-group">
-              <div class="itinerary-item">
-                <span class="title">Bouley</span>
+              <div class="itinerary-item" id="restaurant-choices-itinerary">
+                <span class="title">   </span>
                 <button class="btn btn-xs btn-danger remove btn-circle">x</button>
               </div>
             </ul>
@@ -96,29 +76,71 @@ Switch days
           <div>
             <h4>My Activities</h4>
             <ul class="list-group">
-              <div class="itinerary-item">
-                <span class="title">Mahayana Buddhist Temple Association</span>
+              <div class="itinerary-item" id="activity-choices-itinerary">
+                <span class="title">   </span>
                 <button class="btn btn-xs btn-danger remove btn-circle">x</button>
               </div>
             </ul>
           </div>
         </div>
       </div>
-    </div>-->
+    </div>
   </div>
 </div>
 
+<script src="/jquery/jquery.min.js"></script>
+
+
 <script>
-  var hotels = {{ hotels | dump | safe }};
-  var restaurants = {{ restaurants | dump | safe }};
-  var activities = {{ activities | dump | safe }};
+  let hotels = {{ hotels | dump | safe }};
+  let restaurants = {{ restaurants | dump | safe }};
+  let activities = {{ activities | dump | safe }};
+  let index = 1;
+  let arrayOfDays = [];
+  let iconURLs = {
+    hotel: '../public/images/lodging_0star.png',
+    restaurant: '../public/images/restaurant.png',
+    activity: '../public/images/star-3.png'
+  };
+  for(let i = 0; i < hotels.length; i++){
+    $('#hotel-choices').append('<option>' + hotels[i].name + '</option>');
+    $('#restaurant-choices').append('<option>' + restaurants[i].name + '</option>');
+    $('#activity-choices').append('<option>' + activities[i].name + '</option>');
+  }
+  //Add to itinerary button
+  $('.btn-primary').on('click', function(){
+    let id = $(this).siblings('select').attr('id');
+    let type = $(this).siblings('select').attr('data-type');
+    let option = $(this).siblings('select').val();
+    $('#' + id + '-itinerary').append('<div>' + option + '</div>');
+    $('#' + id + '-itinerary div').css({display: block});
+    //drawMarker(type, hotels[0].place.location);
+  });
+  //Remove itinerary button
+  $('.btn-danger').on('click', function(){
+    let spanId = $(this).siblings('span').attr('id');
+    // if(spanId === 'day-title'){
+    // }
+    $(this).siblings('span').text('');
+  });
+  //Add days button
+  $('#day-add').on('click', function(){
+    index++;
+    let newButton = '<button>' + index + '</button>';
+    $('#day-add').before(newButton);
+    $('.day-buttons button').addClass('btn btn-circle day-btn day-num');
 
-  $('#hotels-choices').on('click', function() {
-    hotels.forEach(function(hotel){
-      $('#hotels-choices').append('<option>' + hotel.name + '</option>');
-    })
-  })
+  });
 
+  // function drawMarker (type, coords) {
+  //   var latLng = new google.maps.LatLng(coords[0], coords[1]);
+  //   var iconURL = iconURLs[type];
+  //   var marker = new google.maps.Marker({
+  //     icon: iconURL,
+  //     position: latLng
+  //   });
+  //   marker.setMap(currentMap);
+  // }
 </script>
-
 {% endblock %}
+
