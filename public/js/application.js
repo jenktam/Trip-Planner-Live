@@ -1,102 +1,4 @@
-{% extends 'layout.html' %}
-
-{% block title %}Your Trip{% endblock %}
-
-{% block content %}
-<div id="app" class="clearfix">
-  <div class="map-container col-sm-8 col-lg-9">
-    <div>
-      <div id="map-canvas"></div>
-    </div>
-  </div>
-  <div id="control-panel" class="col-sm-4 col-lg-3 clearfix">
-    <div class="col-xs-6 col-sm-12">
-      <div class="panel panel-default">
-        <div class="panel-body" id="options-panel">
-          <div>
-            <h4>Hotels</h4>
-            <select data-type="hotel" id="hotel-choices">
-
-            </select>
-            <button data-action="add" class="btn btn-primary btn-circle pull-right">+</button>
-          </div>
-          <div>
-            <h4>Restaurants</h4>
-            <select data-type="restaurant" id="restaurant-choices">
-
-            </select>
-            <button data-action="add" class="btn btn-primary btn-circle pull-right">+</button>
-          </div>
-          <div>
-            <h4>Activities</h4>
-            <select data-type="activity" id="activity-choices">
-
-            </select>
-            <button data-action="add" class="btn btn-primary btn-circle pull-right">+</button>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-xs-6 col-sm-12">
-      <h3>
-        <span id="day-title">
-          <span>Day 1</span>
-          <button class="btn btn-xs btn-danger remove btn-circle">x</button>
-        </span>
-      </h3>
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <div class="day-buttons">
-            <button class="btn btn-circle day-btn day-num">1</button>
-            <button class="btn btn-circle day-btn" id="day-add">+</button>
- <!--            <button class="btn btn-circle day-btn current-day">2</button>
-            <button class="btn btn-circle day-btn">3</button> -->
-
-          </div>
-        </div>
-        <div class="panel-body" id="itinerary">
-          <div>
-            <h4>My Hotel</h4>
-            <ul class="list-group" id="hotel-choices-itinerary">
-              <!-- <div class="itinerary-item">
-                <span class="title"></span>
-                <button class="btn btn-xs btn-danger remove btn-circle">x</button>
-              </div> -->
-            </ul>
-          </div>
-          <div>
-            <h4>My Restaurants</h4>
-            <ul class="list-group" id="restaurant-choices-itinerary">
-              <!-- <div class="itinerary-item" >
-                <span class="title"></span>
-                <button class="btn btn-xs btn-danger remove btn-circle">x</button>
-              </div> -->
-            </ul>
-          </div>
-          <div>
-            <h4>My Activities</h4>
-            <ul class="list-group" id="activity-choices-itinerary">
-              <!-- <div class="itinerary-item">
-                <span class="title"></span>
-                <button class="btn btn-xs btn-danger remove btn-circle">x</button>
-              </div> -->
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<script src="/jquery/jquery.min.js"></script>
-
-
-<script>
-  let hotels = {{ hotels | dump | safe }};
-  let restaurants = {{ restaurants | dump | safe }};
-  let activities = {{ activities | dump | safe }};
-  let index = 1;
-  let arrayOfDays = [];
+$(document).ready(function() {
   let iconURLs = {
     hotel: '../public/images/lodging_0star.png',
     restaurant: '../public/images/restaurant.png',
@@ -191,5 +93,14 @@
   //   });
   //   marker.setMap(currentMap);
   // }
-</script>
-{% endblock %}
+
+});
+// function drawMarker (type, coords) {
+//   var latLng = new google.maps.LatLng(coords[0], coords[1]);
+//   var iconURL = iconURLs[type];
+//   var marker = new google.maps.Marker({
+//     icon: iconURL,
+//     position: latLng
+//   });
+//   marker.setMap(currentMap);
+// }
